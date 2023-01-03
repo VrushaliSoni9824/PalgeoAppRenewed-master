@@ -6,6 +6,7 @@ import {
   TouchableWithoutFeedback,
   Image,
   KeyboardAvoidingView,
+  Alert,
 } from 'react-native';
 import {
   widthPercentageToDP as wp,
@@ -118,18 +119,24 @@ export default class SetMpin extends Component {
                   }
                 }
               } else {
-                if (Platform.OS == 'ios') {
-                  alert(json.message);
-                  setTimeout(() => {
-                    this.setState({ showAlert: false });
-                  }, 1200);
-                } else {
-                  this.setState({
-                    showAlert1: true,
-                    error_message: json.message,
-                    showAlert: false,
-                    error: true,
-                  });
+                // this.setMpin();
+                if(json.message != null){
+                  if (Platform.OS == 'ios') {
+                    alert(json.message);
+                    setTimeout(() => {
+                      this.setState({ showAlert: false });
+                    }, 1200);
+                  } else {
+                    this.setState({
+                      showAlert1: true,
+                      error_message: json.message,
+                      showAlert: false,
+                      error: true,
+                    });
+                    
+                }
+                }else{
+                  this.setMpin();
                 }
               }
             })

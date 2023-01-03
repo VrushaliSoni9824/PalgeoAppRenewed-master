@@ -126,12 +126,25 @@ export default class App extends React.Component {
       console.log('OneSignal: permission changed:', event);
     });
 
-    const deviceState = await OneSignal.getDeviceState();
-    console.log('device -===', deviceState);
-    await AsyncStorage.setItem(
-      'device_token',
-      deviceState.userId ? deviceState.userId : '',
-    );
+    setTimeout(async () => {
+      const deviceState = await OneSignal.getDeviceState();
+      let userId = deviceState.userId;
+      console.log('device -===', deviceState);
+      await AsyncStorage.setItem(
+        'device_token',
+        userId ? userId : '',
+      );
+   }, 8000);
+
+    // Comment by : Vrushali 
+    // ====================
+    // const deviceState = await OneSignal.getDeviceState();
+    // console.log('device -===', deviceState);
+    // await AsyncStorage.setItem(
+    //   'device_token',
+    //   deviceState.userId ? deviceState.userId : '',
+    // );
+    // ==========================
 
     // this.setState({
     //     isSubscribed : deviceState.isSubscribed

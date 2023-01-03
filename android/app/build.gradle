@@ -137,6 +137,14 @@ android {
 
     compileSdkVersion rootProject.ext.compileSdkVersion
 
+packagingOptions {
+       pickFirst 'lib/x86/libc++_shared.so'
+       pickFirst 'lib/x86_64/libjsc.so'
+       pickFirst 'lib/arm64-v8a/libjsc.so'
+       pickFirst 'lib/arm64-v8a/libc++_shared.so'
+       pickFirst 'lib/x86_64/libc++_shared.so'
+       pickFirst 'lib/armeabi-v7a/libc++_shared.so'
+     }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
@@ -149,8 +157,8 @@ android {
         applicationId "com.palgeo"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 3145824
-        versionName "1.16.4"
+        versionCode 3145825
+        versionName "1.16.5"
         missingDimensionStrategy 'react-native-camera', 'general' 
         multiDexEnabled true
         vectorDrawables.useSupportLibrary = true

@@ -7,6 +7,7 @@ import Complaints from '../../components/Requests/Complaints';
 import Leaves from '../../components/Requests/Leaves';
 import Punch from '../../components/Requests/Punch';
 import ApprovalScreen from '../../components/Requests/ApprovalScreen';
+import DocumentViewr from '../../components/Requests/DocumentViewr';
 import RequestDetails from '../../components/Requests/RequestDetails';
 import BackDatedLeave from '../../components/Requests/BackDatedLeave';
 import BackDatedOnDuty from '../../components/Requests/BackDatedOnDuty';
@@ -29,6 +30,7 @@ export const RDashboardStack = () => {
       <Stack1.Screen name="Punch" component={Punch} />
 
       <Stack1.Screen name="ApprovalScreen" component={ApprovalScreen} />
+      <Stack1.Screen name="DocumentViewr" component={DocumentViewr} />
       <Stack1.Screen name="RequestDetails" component={RequestDetails} />
       <Stack1.Screen name="BackDatedLeave" component={BackDatedLeave} />
       <Stack1.Screen name="BackDatedOD" component={BackDatedOnDuty} />

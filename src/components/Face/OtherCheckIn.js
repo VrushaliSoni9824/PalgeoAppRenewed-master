@@ -130,6 +130,18 @@ export default class OtherCheckIn extends Component {
         //   type: 'image/png',
         // })
         //if (!json) {
+          console.log(Const + 'api/Staff/CheckInForOthers');
+          console.log("====================================================")
+          console.log(JSON.stringify({
+            StaffNo: this.state.StaffNo,
+            Coordinates: coordinates,
+            DOB: '',
+            InstituteId: this.state.institute_id,
+            Accuracy: parseInt(position.coords.accuracy),
+            IsTravelCheckIn: status,
+            //File: uploadData1
+          }));
+          console.log("====================================================")
         fetch(Const + 'api/Staff/CheckInForOthers', {
           method: 'POST',
           withCredentials: true,
@@ -162,9 +174,13 @@ export default class OtherCheckIn extends Component {
               if (Platform.OS === 'ios') {
                 alert('Checked in successfully');
                 return setTimeout(() => {
-                  this.props.navigation.navigate('OtherStaffTasks', {
-                    disable: true,
-                  });
+
+                  // this.goToHome();
+                  // this.props.navigation.navigate('OtherStaffTasks', {
+                  //   disable: true,
+                  // });
+                  // this.props.navigation.navigate('Home');
+                  // this.props.navigation.navigate('Home');
                 }, 1200);
               }
               this.setState({
@@ -175,9 +191,12 @@ export default class OtherCheckIn extends Component {
               });
               try {
                 setTimeout(() => {
-                  this.props.navigation.navigate('OtherStaffTasks', {
-                    disable: true,
-                  });
+                  // this.goToHome();
+                  // this.props.navigation.navigate('Home');
+                  // this.props.navigation.navigate('Home');
+                  // this.props.navigation.navigate('OtherStaffTasks', {
+                  //   disable: true,
+                  // });
                 }, 1200);
               } catch (e) {
                 console.log(e);
@@ -241,7 +260,7 @@ export default class OtherCheckIn extends Component {
     this.props.navigation.navigate('Home');
   };
   goToStaffTasks = () => {
-    this.props.navigation.navigate('StaffTasks', {disable: true});
+    // this.props.navigation.navigate('StaffTasks', {disable: true});
   };
   render() {
     var cardStyle1 = {

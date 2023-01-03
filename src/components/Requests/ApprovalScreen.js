@@ -31,6 +31,10 @@ import Error from '../popups/error';
 import { tokenApi } from '../../utils/apis';
 import SuccessError from '../common/SuccessError';
 import { isIOS } from '../../utils/configs/Constants';
+import Pdf from 'react-native-pdf';
+import RNFS from "react-native-fs";
+import FileViewer from "react-native-file-viewer"
+import { Alert } from 'react-native';
 const SubThemeColor = Colors.secondary;
 const ThemeColor = Colors.button[0];
 export default class ApprovalScreen extends Component {
@@ -43,6 +47,7 @@ export default class ApprovalScreen extends Component {
       Visible: false,
       //request: this.props.route?.params?.request,
       LeaveItemData: this.props.route?.params?.LeaveItemData,
+      urlExtension: this.get_url_extension(this.props.route?.params?.LeaveItemData.leaveAttachment),
       user_id: this.props.route?.params?.user_id || '',
       institute_id: this.props.route?.params?.institute_id || '',
       Comment: '',
@@ -54,6 +59,10 @@ export default class ApprovalScreen extends Component {
     };
     console.log('props = ', JSON.stringify(this.props?.route?.params?.LeaveItemData));
   }
+
+  get_url_extension = ( url ) => {
+    return url.split(/[#?]/)[0].split('.').pop().trim();
+}
   componentDidMount() {
     this.getLeaveAnalysis();
     this.arrayModifier();
@@ -648,7 +657,75 @@ export default class ApprovalScreen extends Component {
                         </Text>
                       )
                     )}
+                    
+                    <Text
+                          style={[
+                            styles.text,
+                            {
+                              color: 'black',
+                              fontSize: 14,
+                              //width: '100%',
+                              alignSelf: 'center',
+                              //marginRight: 20,
+                              marginVertical: 5,
+                            },
+                          ]}>
+                            Total availed
+                         
+                        </Text>
+                        <Text
+                          style={[
+                           
+                            {
+                              color: 'black',
+                              fontSize: 18,
+                              fontSize: 18,
+                              fontWeight:'bold',
+                              alignSelf: 'center',
+                              //marginRight: 20,
+                        
+                            },
+                          ]}>
+                     
+                          {LeaveItemData.noOfDays}
+                         
+                        </Text>
+                        <Text
+                          style={[
+                            styles.text,
+                            {
+                              color: 'black',
+                              fontSize: 14,
+                              //width: '100%',
+                              alignSelf: 'center',
+                              //marginRight: 20,
+                              marginVertical: 5,
+                            },
+                          ]}>
+                            Total remaining
+                          
+                        </Text>
+
+                        <Text
+                          style={[
+                           
+                            {
+                              color: 'black',
+                              fontSize: 18,
+                              fontWeight:'bold',
+                              alignSelf: 'center',
+                              //marginRight: 20,
+                        
+                            },
+                          ]}>
+                     
+                          {LeaveItemData.noOfDays}
+                         
+                        </Text>
+
                   </View>
+
+                  
                 </View>
                 <View style={{ backgroundColor: 'white', paddingBottom: 10 }}>
                   {LeaveItemData?.reason ?
@@ -729,18 +806,56 @@ export default class ApprovalScreen extends Component {
                         title={LeaveItemData.alternateStaff}
                       />
                     )}
+                    {/* <Text>{LeaveItemData.leaveAttachment</Text> */}
                   {(LeaveItemData?.leaveAttachment ||
                     LeaveItemData?.leaveAttachment !== '') && (
                       <TouchableOpacity
                         onPress={() => {
                           this.setState({ Visible: true });
+                          console.log(this.urlExtension);
                         }}
                         style={{
                           width: '100%',
                           alignSelf: 'center',
                           marginVertical: 10,
                         }}>
-                        <Thumbnail
+                       
+                        
+                        {/* <Text>{LeaveItemData.leaveAttachment}</Text> */}
+                        {this.state.urlExtension == "pdf" || this.state.urlExtension == "docx" ? (
+                          <TouchableOpacity
+                          onPress={() => {
+                            // this.props.navigation.navigate("DocumentViewr",{uri:LeaveItemData.leaveAttachment,
+                            //  url_extension: this.get_url_extension(LeaveItemData.leaveAttachment)});
+
+                            const extension = this.get_url_extension(LeaveItemData.leaveAttachment);
+                            const localFile = `${RNFS.DocumentDirectoryPath}/temporaryfile.${extension}`;
+                            const options = {
+                              fromUrl:  LeaveItemData.leaveAttachment,
+                              toFile: localFile,
+                            };
+
+                            RNFS.downloadFile(options)
+                            .promise.then(() => FileViewer.open(localFile))
+                            .then(() => {
+                              // success
+                              console.log("Success");
+                            })
+                            .catch((error) => {
+                              // error
+                              console.log("Error"+error)
+                            });
+
+
+                          }}
+                          >
+                              <Text style={{paddingLeft: 10, color: 'blue',textDecorationLine: 'underline'}}>Click here to view Document</Text>
+                          </TouchableOpacity>
+                          
+                        ):(
+                          <View>
+                          
+                          <Thumbnail
                           alt="No image"
                           style={{
                             borderRadius: 10,
@@ -752,7 +867,16 @@ export default class ApprovalScreen extends Component {
                             uri: LeaveItemData.leaveAttachment,
                           }}
                         />
+                        
+                          </View>
+                        )}
                       </TouchableOpacity>
+
+                      // {this.state.urlExtension == "" (
+                      //   <View></View>
+                      // ):(
+                      //   <View></View>
+                      // )}
                     )}
                 </View>
                 <Overlay

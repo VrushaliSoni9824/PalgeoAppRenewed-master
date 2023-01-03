@@ -422,7 +422,7 @@ export class Entry extends Component {
       data.forEach(e => depts.push(e.department));
       console.log("depts=depts", depts)
       const { length } = depts;
-      const present = data.filter(e => !e.present).length;
+      const present = data.filter(e => !e.absent).length;
       const absent = data.filter(e => e.absent).length;
       const late = data.filter(
         e => !e.absent && e.firstHalfStatus === 'Late',
