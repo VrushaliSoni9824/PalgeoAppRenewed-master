@@ -384,10 +384,13 @@ export default class Leaves extends Component {
     // alert("12")
     this.setState({ ApiLoader: true });
     const url = `${Const}api/Leave/GetLeaveRequestsForApprover/${instituteId}/${approverStaffCode}`;
+    console.log("*************************************");
     console.log(url);
     try {
       const response = await axios.get(url);
-
+      console.log("******************Responses*******************");
+      console.log(JSON.stringify(response));
+      console.log("*************************************");
       // return;
       let data = [];
       let LeaveArrDates = [];

@@ -163,6 +163,7 @@ export const addBoundaries = async (user_id, institute_id) => {
             .then(success => console.log(success))
             .catch(e => console.log(e));
         }
+        console.log("=============================================")
         console.log('filteredLocations', locations);
         await AsyncStorage.setItem('locations', JSON.stringify(locations));
         await AsyncStorage.setItem(

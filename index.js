@@ -33,8 +33,10 @@ import {
 
 const track = async () => {
   try {
+    console.log("In run By vrushali:")
     const wifiLocations = await getWifiLocations();
     const isFaceRequired = await asyncStorageDataFetch('isFaceRequired');
+    console.log("Wifi location:"+JSON.stringify(wifiLocations))
     if (wifiLocations.length > 0 && isFaceRequired === 'false') {
       const shedcheckInTime = moment
         .utc(wifiLocations[0].checkInTime, 'HH:mm:ss')
@@ -70,7 +72,7 @@ const track = async () => {
 const BackgroundGeolocationHeadlessTask = async event => {
   let params = event.params;
   console.log('[BackgroundGeolocation HeadlessTask] -', event.name, params);
-
+  console.log(new Date().toLocaleString());
   switch (event.name) {
     case 'heartbeat':
       await track();

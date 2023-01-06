@@ -91,6 +91,10 @@ export default class App extends React.Component {
     this.ConfigureOneSignal();
   }
 
+   getCurrentDate=()=>{
+    return new Date().toLocaleString();//format: d-m-y;
+  }
+
   ConfigureOneSignal = async () => {
     /* O N E S I G N A L   S E T U P */
     OneSignal.setAppId('cb52438d-c790-46e4-83de-effe08725aff');
@@ -601,7 +605,9 @@ export default class App extends React.Component {
     this.subscriptions.push(
       BackgroundGeolocation.onHeartbeat(
         async location => {
-          console.log('[onHeartBeat]');
+          console.log('[onHeartBeat]:'+this.getCurrentDate());
+          console.log('[onHeartBeat] Event: App.js:');
+          
           const wifiLocations = JSON.parse(
             await asyncStorageDataFetch('wifiLocations'),
           );
@@ -655,8 +661,22 @@ export default class App extends React.Component {
       ),
     );
     this.subscriptions.push(
+      BackgroundGeolocation.onHeartbeat((event) => {
+        console.log("[onHeartbeat]2 ", event);
+      
+        // You could request a new location if you wish.
+        BackgroundGeolocation.getCurrentPosition({
+          samples: 1,
+          persist: true
+        }).then((location) => {
+          console.log("[getCurrentPosition] ", location);
+        });
+      })
+    );
+    this.subscriptions.push(
       BackgroundGeolocation.onLocation(
         async location => {
+          console.log("=============================================");
           console.log('[onLocation]', JSON.stringify(location, null, 2));
           const wifiLocations = await getWifiLocations();
           console.log('wifiLocations length', wifiLocations.length);
@@ -757,7 +777,7 @@ export default class App extends React.Component {
       stopOnStationary: isFaceRequired === 'false' ? false : true,
 
       reset: true,
-      debug: false,
+      debug: true,
       //logLevel: BackgroundGeolocation.LOG_LEVEL_INFO,
       // transistorAuthorizationToken: bearer_token,
       // Geolocation
@@ -766,11 +786,11 @@ export default class App extends React.Component {
       geofenceModeHighAccuracy: true,
       distanceFilter:
         isFaceRequired === 'false' && wifiLocations.length > 0 ? 10 : 150,
-      //locationUpdateInterval: 30000,
+      locationUpdateInterval: 1000,
       disableElasticity: true,
       heartbeatInterval: 60,
       preventSuspend: true,
-      // locationUpdateInterval: 60000,
+      locationUpdateInterval: 1000,
       stopTimeout: 5,
       notification: {
         title: 'Palgeo Geofence Attendance App',

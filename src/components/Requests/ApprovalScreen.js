@@ -703,7 +703,7 @@ export default class ApprovalScreen extends Component {
                             },
                           ]}>
                             Total remaining
-                          
+                            
                         </Text>
 
                         <Text
@@ -719,7 +719,8 @@ export default class ApprovalScreen extends Component {
                             },
                           ]}>
                      
-                          {LeaveItemData.noOfDays}
+                          {LeaveItemData.leavesRemainingInCurrentMonth}
+                          
                          
                         </Text>
 
